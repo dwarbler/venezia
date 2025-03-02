@@ -9,7 +9,7 @@ cd venezia
 
 [uv](https://docs.astral.sh/uv/) is used for package management and build system. If you are using uv, you can install the dependencies with `uv pip install .`. Otherwise, you can install them with `pip install .`.
 
-To run the CLI, you can use `uv run main.py` or `python -m src.main`.
+To run the CLI, you can use `uv run -m src.main` or `python -m src.main`.
 
 Running `uv run -m src.main --help` will give you the list of available commands.
 
