@@ -23,7 +23,7 @@ class Language(Enum):
 
 class WorkflowManager:
     def __init__(self):
-        self.template_dir = Path(__file__).parent / "templates"
+        self.template_dir = Path(__file__).parent / "templates" / "workflows"
 
     def list_workflows(self) -> List[str]:
         """List all available workflows.
@@ -33,20 +33,27 @@ class WorkflowManager:
         """
         return [f.stem for f in self.template_dir.iterdir() if f.is_dir()]
 
-    def list_language_workflows(self, language: Language) -> List[str]:
+    def list_language_workflows(self, language: Language):
         """List all available workflows for a specific language.
 
         Args:
             language (Languages): the language to list workflows for
 
         Returns:
-            List[str]: the list of workflow names
+            dict[str, list[str]]: workflows of the passed language
         """
-        return [
-            f.stem
-            for f in self.template_dir.iterdir()
-            if f.is_dir() and f.name.startswith(language.value)
-        ]
+        workflows = {}
+        workflow_dir = self.template_dir / language.value
+
+        if not workflow_dir.exists():
+            raise ValueError(f"No workflows found for {language}")
+
+        for workflow in workflow_dir.iterdir():
+            files = list(workflow_dir.glob(f"{workflow.name}/*.yml"))
+            if files:
+                workflows[workflow.name] = [f.stem for f in files]
+
+        return workflows
 
     def fetch_workflow(
         self,
