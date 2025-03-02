@@ -3,7 +3,7 @@ A dev tool helping you shorten the worst part of development
 
 ## How to use it
 ```bash
-git clone git@github.com:derekwarner/venezia.git
+git clone git@github.com:dwarbler/venezia.git
 cd venezia
 ```
 
