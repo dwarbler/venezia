@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 
 from src.gitignores import GitignoreManager
-from src.workflows import WorkflowManager, Workflows
+from src.workflows import WorkflowManager
 
 
 def create_parser() -> argparse.ArgumentParser:
@@ -74,13 +74,13 @@ def init_project(args):
         # Let user select workflow types
         available_workflows = workflow_manager.list_language_workflows(args.language)
         print("\nAvailable workflow types:")
-        for type_name, workflows in available_workflows.items():
-            print(f"  {type_name}: {', '.join(workflows)}")
+        for workflow in available_workflows:
+            print(f" -- {workflow.name}")
 
         selected_types = []
-        for workflow_type in Workflows:
-            if input(f"Add {workflow_type.value} workflow? (y/N): ").lower() == "y":
-                selected_types.append(workflow_type)
+        for workflow_type in available_workflows:
+            if input(f"Add {workflow_type.stem} workflow? (y/N): ").lower() == "y":
+                selected_types.append(workflow_type.stem)
 
         if selected_types:
             created = workflow_manager.fetch_workflow(

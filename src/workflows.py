@@ -33,7 +33,7 @@ class WorkflowManager:
         """
         return [f.stem for f in self.template_dir.iterdir() if f.is_dir()]
 
-    def list_language_workflows(self, language: Language):
+    def list_language_workflows(self, language: str):
         """List all available workflows for a specific language.
 
         Args:
@@ -42,16 +42,14 @@ class WorkflowManager:
         Returns:
             dict[str, list[str]]: workflows of the passed language
         """
-        workflows = {}
-        workflow_dir = self.template_dir / language.value
+        workflows = []
+        workflow_dir = self.template_dir / language
 
         if not workflow_dir.exists():
             raise ValueError(f"No workflows found for {language}")
 
         for workflow in workflow_dir.iterdir():
-            files = list(workflow_dir.glob(f"{workflow.name}/*.yml"))
-            if files:
-                workflows[workflow.name] = [f.stem for f in files]
+            workflows.append(workflow)
 
         return workflows
 
@@ -76,14 +74,14 @@ class WorkflowManager:
             raise ValueError(f"No workflows found for {language}")
 
         for workflow_type in types:
-            template_path = lang_dir / f"{workflow_type.value}.yml"
+            template_path = lang_dir / f"{workflow_type}.yml"
             if not template_path.exists():
                 print(
                     f"Warning: No {workflow_type.value} workflow found for {language}"
                 )
                 continue
 
-            output_file = output_path / f"{language}-{workflow_type.value}.yml"
+            output_file = output_path / f"{language}-{workflow_type}.yml"
             with template_path.open() as f:
                 template = yaml.safe_load(f)
 

@@ -1,0 +1,22 @@
+name: Rust Tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --all-features --verbose
+      - uses: actions-rs/cargo@v1
+        with:
+          command: tarpaulin
+          args: --out Xml
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./cobertura.xml
