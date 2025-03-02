@@ -7,7 +7,7 @@ git clone git@github.com:derekwarner/venezia.git
 cd venezia
 ```
 
-[uv](https://docs.astral.sh/uv/) is used for package management and build system. If you are using uv, you can install the dependencies with `uv install`. Otherwise, you can install them with `pip install pyproject.toml`.
+[uv](https://docs.astral.sh/uv/) is used for package management and build system. If you are using uv, you can install the dependencies with `uv venv`. Otherwise, you can install them with `pip install pyproject.toml`.
 
 To run the CLI, you can use `uv run main.py` or `python -m src.main`.
 
